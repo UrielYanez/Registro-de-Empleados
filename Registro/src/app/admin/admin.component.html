@@ -1,0 +1,129 @@
+<h1>Administrar Empleado</h1>
+<form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+  <!-- Nombre -->
+  <div>
+    <label>Nombres:</label>
+    <input formControlName="Nombres" />
+  </div>
+  <div>
+    <label>Apellido Paterno:</label>
+    <input formControlName="ApellidoPaterno" />
+  </div>
+  <div>
+    <label>Apellido Materno:</label>
+    <input formControlName="ApellidoMaterno" />
+  </div>
+
+  <!-- Fecha de Nacimiento y Sexo -->
+  <div>
+    <label>Fecha de Nacimiento:</label>
+    <input type="date" formControlName="FechaNacimiento" />
+  </div>
+  <div>
+    <label>Sexo:</label>
+    <select formControlName="Sexo">
+      <option value="M">Masculino</option>
+      <option value="F">Femenino</option>
+    </select>
+  </div>
+
+  <!-- Foto -->
+  <div>
+    <label>Foto:</label>
+    <input type="file" name="FotoEmpleado" (change)="onFileChange($event)">
+  </div>
+
+  <!-- Domicilio -->
+  <div formGroupName="Domicilio">
+    <h3>Domicilio</h3>
+    <input formControlName="Calle" placeholder="Calle" />
+    <input formControlName="NumeroExterior" placeholder="Número Exterior" />
+    <input formControlName="NumeroInterior" placeholder="Número Interior" />
+    <input formControlName="Colonia" placeholder="Colonia" />
+    <input formControlName="CP" placeholder="Código Postal" />
+    <input formControlName="Ciudad" placeholder="Ciudad" />
+  </div>
+
+  <!-- Departamento -->
+  <div>
+    <label>Departamento:</label>
+    <select formControlName="Departamento">
+      <option *ngFor="let depto of departamentos" [value]="depto.nombre">{{ depto.nombre }}</option>
+    </select>
+  </div>
+
+  <!-- Puesto -->
+  <div>
+    <label>Puesto:</label>
+    <select formControlName="Puesto">
+      <option *ngFor="let puesto of puestos" [value]="puesto.nombre">{{ puesto.nombre }}</option>
+    </select>
+  </div>
+
+  <!-- Teléfonos -->
+  <div formArrayName="Telefono">
+    <h3>Teléfonos</h3>
+    <div *ngFor="let tel of telefonos.controls; let i = index">
+      <input [formControlName]="i" placeholder="Teléfono" />
+      <button type="button" (click)="eliminarTelefono(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="agregarTelefono()">Agregar Teléfono</button>
+  </div>
+
+  <!-- Correos -->
+  <div formArrayName="CorreoElectronico">
+    <h3>Correos Electrónicos</h3>
+    <div *ngFor="let correo of correos.controls; let i = index">
+      <input [formControlName]="i" placeholder="Correo Electrónico" />
+      <button type="button" (click)="eliminarCorreo(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="agregarCorreo()">Agregar Correo</button>
+  </div>
+
+  <div formArrayName="ReferenciasFamiliares">
+    <h3>Referencias Familiares</h3>
+    <div *ngFor="let ref of referencias.controls; let i = index" [formGroupName]="i">
+      <input formControlName="NombreCompleto" placeholder="Nombre Completo" />
+      <select formControlName="Parentesco">
+        <option *ngFor="let parentesco of parentescos" [value]="parentesco.parentesco">{{ parentesco.parentesco }}
+        </option>
+      </select>
+      <input formControlName="Telefono" placeholder="Teléfono" />
+      <input formControlName="CorreoElectronico" placeholder="Correo Electrónico" />
+      <button type="button" (click)="eliminarReferencia(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="agregarReferenciaFamiliar()">Agregar Referencia</button>
+  </div>
+
+  <!-- Cursos Tomados -->
+  <div formArrayName="CursosTomados">
+    <h3>Cursos Tomados</h3>
+    <div *ngFor="let curso of cursos.controls; let i = index" [formGroupName]="i">
+      <input formControlName="NombreCurso" placeholder="Nombre del Curso" />
+      <input type="date" formControlName="FechaInicio" />
+      <input type="date" formControlName="FechaTermino" />
+      <input formControlName="DocumentoRecibido" placeholder="Documento Recibido" />
+      <button type="button" (click)="eliminarCurso(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="agregarCursoTomado()">Agregar Curso</button>
+  </div>
+
+  <!-- Actividad (en Participación en Actividades) -->
+  <div formArrayName="ParticipacionActividades">
+    <h3>Participación en Actividades</h3>
+    <div *ngFor="let actividad of actividadesArray.controls; let i = index" [formGroupName]="i">
+      <select formControlName="Actividad">
+        <option *ngFor="let act of actividades" [value]="act.nombre">{{ act.nombre }}</option>
+      </select>
+      <select formControlName="Estatus">
+        <option value="A">Activo</option>
+        <option value="I">Inactivo</option>
+      </select>
+      <button type="button" (click)="eliminarActividad(i)">Eliminar</button>
+    </div>
+    <button type="button" (click)="agregarActividad()">Agregar Actividad</button>
+  </div>
+
+  <!-- Botón de Enviar -->
+  <button type="submit">Guardar</button>
+</form>

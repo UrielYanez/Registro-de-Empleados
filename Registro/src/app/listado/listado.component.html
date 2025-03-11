@@ -1,0 +1,24 @@
+<h1>Listado de Empleados</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Clave</th>
+      <th>Nombre</th>
+      <th>Departamento</th>
+      <th>Puesto</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let empleado of empleados">
+      <td>{{ empleado._id }}</td>
+      <td>{{ empleado.NombreEmpleado.Nombres }} {{ empleado.NombreEmpleado.ApellidoPaterno }}</td>
+      <td>{{ empleado.Departamento }}</td>
+      <td>{{ empleado.Puesto }}</td>
+      <td>
+        <button [routerLink]="['/editar', empleado._id]">Editar</button>
+        <button (click)="eliminarEmpleado(empleado._id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
